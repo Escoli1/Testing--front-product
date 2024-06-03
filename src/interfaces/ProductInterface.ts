@@ -7,3 +7,9 @@ export interface ProductInterface {
     updatedAt : Date,
     userId : number
 }
+
+export interface ProductoNuevo {
+    name : string,
+    description : string,
+    price : number,    
+}

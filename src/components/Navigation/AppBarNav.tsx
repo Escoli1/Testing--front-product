@@ -1,24 +1,21 @@
-import { Box, Button, Toolbar, Typography } from '@mui/material';
+"use client"
+import { Box, Toolbar } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import Link from 'next/link';
+import AppTitulo from './AppTitulo';
+import AppNavegacion from './AppNavegacion';
 
 function AppBarNav() {
+
   return (
-   <>
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Página de Productos
-          </Typography>
-          <Link href="/login">
-            <Button color="secondary" variant='contained'>Login</Button>
-          </Link>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <AppTitulo />
+            <AppNavegacion />
         </Toolbar>
       </AppBar>
     </Box>
-   </>
-  )
+  );
 }
 
-export default AppBarNav
+export default AppBarNav;

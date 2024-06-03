@@ -4,16 +4,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useEffect, useState } from "react";
 import { ProductInterface } from "@/interfaces/ProductInterface";
 import { ProductGetAll } from "@/services/productos/ProductGetAll";
-import {
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-  } from "@mui/material";
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import Link from 'next/link';
 
 function TableProductFree() {
@@ -44,7 +35,7 @@ function TableProductFree() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {products.map((product) => (
+                    {products && products.map((product) => (
                     <TableRow key={product.id} >
                         <TableCell> {product.id} </TableCell>
                         <TableCell> {product.name} </TableCell>

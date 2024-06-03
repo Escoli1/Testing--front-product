@@ -2,25 +2,37 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Logear } from '@/services/usuarios/Logear';
+import { useRouter } from 'next/navigation';
+import { CredencialesStore } from '@/services/usuarios/GuardarCredenciales';
 
 function Registrar() {
+  
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const router = useRouter();
+
   
-    const handleSubmit = (event :React.FormEvent<HTMLFormElement> ) => {
+    const handleSubmit = async (event :React.FormEvent<HTMLFormElement> ) => {
       event.preventDefault();
-      // Aquí iría la lógica de autenticación
-      if (email === 'user@example.com' && password === 'password') {
-        // Redirigir a la página de inicio si la autenticación es exitosa
-      } else {
-        setError('Credenciales inválidas');
+      try {
+        const res = await Logear(email , password);
+        const { access_token } = res;
+        
+        if (access_token != null) {
+          CredencialesStore(access_token, email);
+          router.push('/admin/dashboard');
+        } else {
+          setError('Error en las credenciales');
+        }
+      } catch (error) {
+        console.log(error);
+        setError('Error en la solicitud, vuelva a intentar');
       }
     };
 
@@ -71,26 +83,11 @@ function Registrar() {
               >
                 Iniciar Sesión
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="/register">
-                    <Typography color="primary" variant="body2">
-                      Registrar Usuario
-                    </Typography>
-                  </Link>
-                </Grid>
-                <Grid item xs>
-                  <Link href="/" variant="body2">
-                    Regresar al Login
-                  </Link>
-                </Grid>
-                
-              </Grid>
             </Box>
           </Box>
         </Container>
       </main>
-  )
+    );
 }
 
-export default Registrar
+export default Registrar;
