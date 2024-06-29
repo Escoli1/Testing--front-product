@@ -3,11 +3,12 @@ import React, { ChangeEvent } from 'react';
 import { useEffect, useState } from "react";
 import { ProductInterface } from "@/interfaces/ProductInterface";
 import { ProductGetAll } from "@/services/productos/ProductGetAll";
-import { Box, Button, Modal, Paper, Table, TableBody,TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Grid, Modal, Paper, Snackbar, Table, TableBody,TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Typography } from "@mui/material";
 import { DeleteId } from '@/services/productos/DeleteId';
 import { ProductoNuevo } from '@/interfaces/ProductInterface';
 import { StoreProduct } from '@/services/productos/StoreProduct';
 import { ProductGetId } from '@/services/productos/ProductGetId';
+import { CredencialesClear } from '@/services/usuarios/GuardarCredenciales';
 
 const style = {
     position: 'absolute',
@@ -22,6 +23,8 @@ const style = {
 
 function TableProductA() {
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
     const [products, setProducts] = useState<ProductInterface[]>([]);
     const [open, setOpen] = useState(false);
     const [newProduct, setNewProduct] = useState<ProductoNuevo>({
@@ -56,6 +59,8 @@ function TableProductA() {
                 price: 0
             });
             handleClose();
+            setSnackbarMessage('Producto creado exitosamente!');
+            setOpenSnackbar(true);
         } else {
             alert('Error en el registro')
         }
@@ -69,6 +74,11 @@ function TableProductA() {
         } else {
             alert('No se elimino');
         }
+    }
+
+    const hanldeLogout = () => {
+        CredencialesClear()
+        window.location.href = '/';
     }
 
     const editarProducto = async (id : number) => {
@@ -92,38 +102,49 @@ function TableProductA() {
 
     return (
         <>
-            <div className='container' style={{ padding : '10px'}}>
-                <Button variant='contained' color='primary' onClick={handleOpen} >Crear Producto</Button>
-            </div>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} >
-                <TableHead>
-                    <TableRow>
-                    <TableCell>N°</TableCell>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell>Descripción</TableCell>
-                    <TableCell>Precio</TableCell>
-                    <TableCell>Fecha Creación</TableCell>
-                    <TableCell>Action</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {products && products.map((product) => (
-                    <TableRow key={product.id} >
-                        <TableCell> {product.id} </TableCell>
-                        <TableCell> {product.name} </TableCell>
-                        <TableCell> {product.description} </TableCell>
-                        <TableCell> {product.price} </TableCell>
-                        <TableCell> {new Date(product.createdAt).toLocaleDateString()} </TableCell>
-                        <TableCell>
-                            <Button variant="contained" color='success' onClick={ () => editarProducto(product.id) }>Editar</Button>
-                            <Button variant="contained"  onClick={ () => eliminarProducto(product.id) } color='error'>Eliminar</Button>
-                        </TableCell>
-                    </TableRow>
-                    ))}
-                </TableBody>
-                </Table>
-            </TableContainer>
+            <Grid container spacing={2} justifyContent="center" alignItems="center" style={{ marginTop: 40 }}>
+                <Grid item xs={10} md={10}> 
+                    <Toolbar>
+                        <Box sx={{ flexGrow: 2 }} />
+                        <Button id='crear' variant='contained' color='primary' onClick={handleOpen} sx={{ mx: 1 }}>Crear Producto</Button>
+                        <Button id='logout' variant='contained' color='success' onClick={hanldeLogout} sx={{ mx: 1 }}>Logout</Button>
+                    </Toolbar>
+                    <Typography variant="h6" component="h2" style={{ margin : 5}}>
+                        Lista de Productos
+                    </Typography>
+                    <TableContainer component={Paper}>
+                       
+                        <Table sx={{ minWidth: 650 }} >
+                        <TableHead>
+                            <TableRow>
+                            <TableCell>N°</TableCell>
+                            <TableCell>Nombre</TableCell>
+                            <TableCell>Descripción</TableCell>
+                            <TableCell>Precio</TableCell>
+                            <TableCell>Fecha Creación</TableCell>
+                            <TableCell>Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {products && products.map((product) => (
+                            <TableRow key={product.id} >
+                                <TableCell> {product.id} </TableCell>
+                                <TableCell> {product.name} </TableCell>
+                                <TableCell> {product.description} </TableCell>
+                                <TableCell> {product.price} </TableCell>
+                                <TableCell> {new Date(product.createdAt).toLocaleDateString()} </TableCell>
+                                <TableCell>
+                                        <Button  variant="contained" color='success' onClick={ () => editarProducto(product.id) } sx={{ mx: 1 }}>Editar</Button>
+                                        <Button  data-idProducto={`producto-${product.id}`} variant="contained"  onClick={ () => eliminarProducto(product.id) } color='error' sx={{ mx: 1 }}>Eliminar</Button>
+                                </TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Grid>
+            </Grid>
+          
             
             <Modal open={open} onClose={handleClose}>
                 <Box sx={style}>
@@ -133,6 +154,7 @@ function TableProductA() {
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
                         <TextField
                             fullWidth
+                            id='name'
                             label="Nombre"
                             name="name"
                             value={newProduct.name}
@@ -141,6 +163,7 @@ function TableProductA() {
                             required
                         />
                         <TextField
+                            id='descripcion'
                             fullWidth
                             label="Descripción"
                             name="description"
@@ -150,6 +173,7 @@ function TableProductA() {
                             required
                         />
                         <TextField
+                            id='precio'
                             fullWidth
                             label="Precio"
                             name="price"
@@ -159,7 +183,7 @@ function TableProductA() {
                             margin="normal"
                             required
                         />
-                        <Button type='submit' variant='contained' color='primary'  sx={{ mt: 2 }}>
+                        <Button id='registrar-producto' type='submit' variant='contained' color='primary'  sx={{ mt: 2 }}>
                             Registrar Producto
                         </Button>
                         <Button variant='contained' color='error' onClick={handleClose} sx={{ mt: 2, ml : 2 }}>
@@ -168,6 +192,11 @@ function TableProductA() {
                     </Box>
                 </Box>
             </Modal>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)} >
+                <Alert  variant="filled" severity="success" sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </>
   )
 }

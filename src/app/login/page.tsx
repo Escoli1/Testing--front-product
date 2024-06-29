@@ -5,10 +5,10 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
 import { Logear } from '@/services/usuarios/Logear';
 import { useRouter } from 'next/navigation';
 import { CredencialesStore } from '@/services/usuarios/GuardarCredenciales';
+import Image from 'next/image';
 
 function Registrar() {
   
@@ -39,9 +39,11 @@ function Registrar() {
   
     return (
       <main>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
+        <Container component="main" maxWidth="xs" style={{ marginTop : 25 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Image src='/images/login.png' alt='imagen logo' width={250} height={250} />
+          </Box>
+          <Box sx={{ marginTop: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
             <Typography component="h1" variant="h5">
               LOGIN
             </Typography>
@@ -76,6 +78,7 @@ function Registrar() {
                 </Typography>
               )}
               <Button
+                id='iniciar'
                 type="submit"
                 fullWidth
                 variant="contained"

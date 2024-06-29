@@ -1,24 +1,30 @@
 "use"
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
 
 function AppNavegacion() {
   return (
     <Box display="flex">
-        <Box mr={1}>
-            <Link href="/" passHref>
-                <Button color="warning" variant="contained">Home</Button>
+        <Box mr={3}>
+            <Link href="/">
+                <Typography variant="subtitle2" component="p" sx={{ flexGrow: 1 }} color='white'>
+                    Home
+                </Typography>
             </Link>
         </Box>
-        <Box mr={1}>
+        <Box mr={3}>
         <Link href="/products" passHref>
-            <Button color="warning" variant="contained">Productos</Button>
+            <Typography variant="subtitle2" component="p" sx={{ flexGrow: 1 }} color='white'>
+                Productos
+            </Typography>
         </Link>
         </Box>
-        <Box ml={1}>
+        <Box mr={5}>
         <Link href="/login" passHref>
-            <Button color="warning" variant="contained">Login</Button>
+            <Typography variant="subtitle2" component="p" sx={{ flexGrow: 1 }} color='white'>
+                Login
+            </Typography>
         </Link>
         </Box>
   </Box>
