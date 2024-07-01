@@ -52,7 +52,7 @@ function Registrar() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
+                data-testidemail="email"
                 label="Correo Electrónico"
                 name="email"
                 autoComplete="email"
@@ -67,7 +67,7 @@ function Registrar() {
                 name="password"
                 label="Contraseña"
                 type="password"
-                id="password"
+                data-testidpassword="password"
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -78,7 +78,7 @@ function Registrar() {
                 </Typography>
               )}
               <Button
-                id='iniciar'
+                data-testidbtniniciar='iniciar'
                 type="submit"
                 fullWidth
                 variant="contained"

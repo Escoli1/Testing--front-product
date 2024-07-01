@@ -43,7 +43,7 @@ function TableProductFree() {
                         <TableCell> {product.price} </TableCell>
                         <TableCell> {new Date(product.createdAt).toLocaleDateString()} </TableCell>
                         <TableCell>
-                          <Link href={`/products/${product.id}`} >
+                          <Link data-testidproducto={`producto-${product.id}`} href={`/products/${product.id}`} >
                             <IconButton>
                                 <RemoveRedEyeIcon fontSize='small' color='success' />
                             </IconButton>

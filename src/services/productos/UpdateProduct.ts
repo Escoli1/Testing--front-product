@@ -1,24 +1,24 @@
 import { Config } from "@/config/Config";
-import { ProductoNuevo } from "@/interfaces/ProductInterface";
+import { ProductoActualizar } from "@/interfaces/ProductInterface";
 
-export const StoreProduct = async ( newProduct : ProductoNuevo) => {
+export const UpdateProduct = async ( product : ProductoActualizar) => {
     try {
         const requestBody = {
-            name : newProduct.name,
-            description : newProduct.description,
-            price : newProduct.price
+            name : product.name,
+            description : product.description,
+            price : product.price
         }
 
         const token = localStorage.getItem('token');
         const options = {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${token}`, 
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(requestBody)
         }
-        const response = await fetch(`${Config.URL_PRACTICA}/products`, options);
+        const response = await fetch(`${Config.URL_PRACTICA}/products/${product.id}`, options);
         const data = await response.json();
         return data;
 

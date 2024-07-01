@@ -13,3 +13,10 @@ export interface ProductoNuevo {
     description : string,
     price : number,    
 }
+
+export interface ProductoActualizar {
+    id : number,
+    name : string,
+    description : string,
+    price : number,        
+}
