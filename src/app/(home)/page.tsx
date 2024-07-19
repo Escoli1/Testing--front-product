@@ -9,10 +9,11 @@ export default function Page() {
           <Box sx={{  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
               <Grid item>
-                <Typography variant="h3">Modulo 5</Typography>
+                <Typography style={{ color: 'blue' }} variant="h3">Modulo 5 Aseguramiento de calidad
+y pruebas E2E </Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h4">Pedro Vladimir Flores Rios</Typography>
+                <Typography variant="h4">Lidia Escobar Alanoca</Typography>
               </Grid>
               <Grid item>
                 <Typography variant="h5">Práctica Final- Cypress</Typography>
